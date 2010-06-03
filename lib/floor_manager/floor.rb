@@ -24,7 +24,6 @@ class FloorManager::Floor
       @floor
     end
   end
-  
   def self.from_dsl(&block)
     DSL.new(&block).object
   end
@@ -47,5 +46,11 @@ class FloorManager::Floor
   end
   def build(something)
     employees[something.to_sym].build(self)
+  end
+
+  def reset
+    employees.values.each do |employee|
+      employee.reset
+    end
   end
 end 

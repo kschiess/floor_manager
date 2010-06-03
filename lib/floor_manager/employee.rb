@@ -47,6 +47,8 @@ module FloorManager::Employee
         i.save! }
     end
     
+    def reset
+    end
   protected
     def produce_instance
       @klass_name.to_s.
@@ -81,6 +83,10 @@ module FloorManager::Employee
       @instance.save!
       
       @instance
+    end
+
+    def reset
+      @instance = nil
     end
   end
   

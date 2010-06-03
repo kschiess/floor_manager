@@ -58,6 +58,15 @@ describe FloorManager do
         end 
         it { should be_saved } 
       end
+      context "after a reset" do
+        before(:each) { 
+          @old_white = white
+          FloorManager.reset }
+        
+        it "should produce a new white spy (forget about white)" do
+          @old_white.should_not == env.white
+        end 
+      end
     end
   end
   

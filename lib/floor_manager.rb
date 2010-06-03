@@ -16,6 +16,14 @@ class FloorManager
     def get(environment_name)
       floors[environment_name]
     end
+    
+    # Resets all instances produced. Use this in after(:each). 
+    #
+    def reset
+      @floors.values.each do |floor|
+        floor.reset
+      end
+    end
   end
 end
 
