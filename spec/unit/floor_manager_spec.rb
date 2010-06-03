@@ -20,6 +20,45 @@ describe FloorManager do
     it "should build the same object twice" do
       env.white.should == env.white
     end 
+    
+    context "white spy" do
+      subject { env.white }
+      
+      its(:name) { should == 'white spy'}
+      its(:opposite) { should == env.black }
+    end
+    context "black spy" do
+      subject { env.black }
+
+      its(:name) { should == 'black spy'}
+      its(:opposite) { should == env.white }
+    end
+    
+    describe "<- #create(:white)" do
+      let(:white) { env.create(:white) }
+      
+      it "should return a saved object" do
+        white.should be_saved
+      end 
+    end
+    describe "<- #build(:white)" do
+      let(:white) { env.build(:white) }
+      
+      it "should not return a saved object" do
+        white.should_not be_saved
+      end 
+      it "should return the same object through method missing" do
+        white.should == env.white
+      end 
+      context "when accessing the same object with #create" do
+        let(:created) { env.create(:white) }
+        subject { created }
+        it "should return the same object still" do
+          white.should == created
+        end 
+        it { should be_saved } 
+      end
+    end
   end
   
   context "environment with template definition" do
@@ -35,7 +74,13 @@ describe FloorManager do
     
     it "should return a new instance each time called" do
       env.spy.should_not == env.spy
-    end 
+    end
+    
+    context "spy" do
+      subject { env.spy }
+      
+      its(:name) { should == 'white spy'}
+    end
   end
   
 end

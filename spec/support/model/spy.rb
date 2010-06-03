@@ -12,4 +12,10 @@ class Spy
       end
     }
   end
+
+  def initialize
+    @saved = false
+  end
+  def save!; @saved = true; end
+  def saved?; @saved; end
 end

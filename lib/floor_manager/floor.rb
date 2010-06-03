@@ -36,9 +36,16 @@ class FloorManager::Floor
   
   def method_missing(sym, *args, &block)
     if args.size == 0 && employees.has_key?(sym)
-      employees[sym].build
+      employees[sym].build(self)
     else
       super
     end
+  end
+
+  def create(something)
+    employees[something.to_sym].create(self)
+  end
+  def build(something)
+    employees[something.to_sym].build(self)
   end
 end 
