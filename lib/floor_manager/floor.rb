@@ -12,12 +12,12 @@ class FloorManager::Floor
     
     def one(name, opts={}, &block) 
       klass_name = opts[:class] || name
-      @floor.employees[name.to_sym] = FloorManager::Employee.from_dsl(klass_name, &block)
+      @floor.employees[name.to_sym] = FloorManager::Employee::Unique.from_dsl(klass_name, &block)
     end
     
     def any(name, opts={}, &block)
       klass_name = opts[:class] || name
-      @floor.employees[name.to_sym] = FloorManager::Employee.from_dsl(klass_name, &block)
+      @floor.employees[name.to_sym] = FloorManager::Employee::Template.from_dsl(klass_name, &block)
     end
     
     def object

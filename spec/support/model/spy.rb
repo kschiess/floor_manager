@@ -1,6 +1,8 @@
 
 
-class Spy < Struct.new(:name, :opposite)
+class Spy
+  attr_accessor :name, :opposite
+  
   def self.build(attrs={})
     new.tap { |instance|
       attrs.each do |a,v|
