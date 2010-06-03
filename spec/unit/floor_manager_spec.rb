@@ -69,7 +69,6 @@ describe FloorManager do
       end
     end
   end
-  
   context "environment with template definition" do
     let(:env) {
       FloorManager.define :any do |m|
@@ -91,5 +90,20 @@ describe FloorManager do
       its(:name) { should == 'white spy'}
     end
   end
-  
+  context "environment with any/overrides" do
+    let(:env) {
+      FloorManager.define :any do |m|
+        any :spy do
+          name      'white spy'
+        end
+      end
+      
+      FloorManager.get(:any)
+    }
+    
+    let(:russian_spy) { env.spy(:name => 'russian') }
+    subject { russian_spy }
+    
+    its(:name) { should == 'russian' } 
+  end
 end

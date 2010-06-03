@@ -34,18 +34,20 @@ class FloorManager::Floor
   end
   
   def method_missing(sym, *args, &block)
-    if args.size == 0 && employees.has_key?(sym)
-      employees[sym].build(self)
+    if args.size <= 1 && employees.has_key?(sym)
+      attribute_overrides = {}
+      attribute_overrides = args.first unless args.empty?
+      employees[sym].build(self, attribute_overrides)
     else
       super
     end
   end
 
-  def create(something)
-    employees[something.to_sym].create(self)
+  def create(something, overrides={})
+    employees[something.to_sym].create(self, overrides)
   end
-  def build(something)
-    employees[something.to_sym].build(self)
+  def build(something, overrides={})
+    employees[something.to_sym].build(self, overrides)
   end
 
   def reset

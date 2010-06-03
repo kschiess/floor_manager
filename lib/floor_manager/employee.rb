@@ -37,13 +37,13 @@ module FloorManager::Employee
       @attributes << [name, callable]
     end
 
-    def build(floor)
-      produce_instance.tap { |i| apply_attributes(i, floor) }
+    def build(floor, overrides)
+      produce_instance.tap { |i| apply_attributes(i, overrides, floor) }
     end
     
-    def create(floor)
+    def create(floor, overrides)
       produce_instance.tap { |i| 
-        apply_attributes(i, floor)
+        apply_attributes(i, overrides, floor)
         i.save! }
     end
     
@@ -57,9 +57,13 @@ module FloorManager::Employee
         new
     end
     
-    def apply_attributes(instance, floor)
-      @attributes.each do |name, value_producer|
-        instance.send("#{name}=", value_producer.call(instance, floor))
+    def apply_attributes(instance, overrides, floor)
+      (@attributes + overrides.to_a).each do |name, value_producer|
+        if value_producer.respond_to? :call
+          instance.send("#{name}=", value_producer.call(instance, floor))
+        else
+          instance.send("#{name}=", value_producer)
+        end
       end
     end
   end
@@ -67,19 +71,19 @@ module FloorManager::Employee
   # A unique employee that will be build/created only once in the given floor. 
   class Unique < Base
     # REFACTOR: Redundancy
-    def build(floor)
+    def build(floor, overrides)
       return @instance if @instance
       @instance = produce_instance
-      apply_attributes(@instance, floor)
+      apply_attributes(@instance, overrides, floor)
       
       @instance
     end
     
     # REFACTOR: Redundancy
-    def create(floor)
+    def create(floor, overrides)
       return @instance if @instance
       @instance = produce_instance
-      apply_attributes(@instance, floor)
+      apply_attributes(@instance, overrides, floor)
       @instance.save!
       
       @instance
