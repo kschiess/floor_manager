@@ -49,6 +49,9 @@ class FloorManager::Floor
   def build(something, overrides={})
     employees[something.to_sym].build(self, overrides)
   end
+  def attrs(something, overrides={})
+    employees[something.to_sym].attrs(self, overrides)
+  end
 
   def reset
     employees.values.each do |employee|

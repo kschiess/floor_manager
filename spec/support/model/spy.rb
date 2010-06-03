@@ -20,7 +20,7 @@ class Spy
   def saved?; @saved; end
   
   class Builder < Array
-    def create!(attrs)
+    def build(attrs)
       self << Spy.build(attrs)
     end
   end

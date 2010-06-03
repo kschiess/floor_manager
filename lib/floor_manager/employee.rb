@@ -48,10 +48,18 @@ module FloorManager::Employee
         @name = name
       end
       def set(obj, value)
-        obj.send("#{@name}=", value)
+        if obj.kind_of?(Hash)
+          obj[@name] = value
+        else
+          obj.send("#{@name}=", value)
+        end
       end
       def get(obj)
-        obj.send(@name)
+        if obj.kind_of?(Hash)
+          obj[@name]
+        else
+          obj.send(@name)
+        end
       end
     end
     
@@ -63,9 +71,8 @@ module FloorManager::Employee
         @create_args = create_args
       end
       def apply(obj, floor)
-        assoc_obj = floor.build(*@create_args)
-        get(obj) << assoc_obj
-        assoc_obj.save!
+        attributes = floor.attrs(*@create_args)
+        get(obj).build(attributes)
       end
     end
     
@@ -127,6 +134,13 @@ module FloorManager::Employee
       produce_instance.tap { |i| 
         apply_attributes(i, overrides, floor)
         i.save! }
+    end
+    
+    # Returns just the attributes that would be used.
+    #
+    def attrs(floor, overrides)
+      {}.tap { |h| 
+        apply_attributes(h, overrides, floor) }
     end
     
     # Reset this employee between test runs.
