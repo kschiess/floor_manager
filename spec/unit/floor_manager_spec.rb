@@ -101,9 +101,45 @@ describe FloorManager do
       FloorManager.get(:any)
     }
     
-    let(:russian_spy) { env.spy(:name => 'russian') }
-    subject { russian_spy }
+    let(:blue_spy) { env.spy(:name => 'blue') }
+    subject { blue_spy }
     
-    its(:name) { should == 'russian' } 
+    its(:name) { should == 'blue' } 
+  end
+  context "environment with association" do
+    let(:env) {
+      FloorManager.define :any do |m|
+        one :green, :class => Spy do
+          name 'green'
+        end
+        one :white, :class => Spy do
+          name 'white'
+        end
+        one :black, :class => Spy do
+          name 'black'
+        end
+        any :spy do
+          # A shortcut for association sets 
+          # (like { |inst, floor| floor.create(...) })
+          opposite.set :green
+
+          # has and belongs to many (uses association.create)
+          enemies.append :black
+          enemies.append :white
+        end
+      end
+      
+      FloorManager.get(:any)
+    }
+
+    context "produced spy (from any rule)" do
+      let(:any_spy) { env.spy }
+      subject { any_spy }
+
+      its(:enemies) { should have(2).entries }
+      it "should have green in #opposite" do
+        any_spy.opposite.should == env.green
+      end 
+    end
   end
 end

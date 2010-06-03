@@ -18,4 +18,14 @@ class Spy
   end
   def save!; @saved = true; end
   def saved?; @saved; end
+  
+  class Builder < Array
+    def create!(attrs)
+      self << Spy.build(attrs)
+    end
+  end
+  
+  def enemies
+    @builder ||= Builder.new
+  end
 end
