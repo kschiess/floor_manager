@@ -33,6 +33,20 @@ class FloorManager::Floor
     @employees = {}
   end
   
+  # Allows production of new employees by calling their names as methods on
+  # the floor. 
+  #
+  # With a definition of 
+  #   
+  #   one :dog do
+  #   end
+  #   
+  # you could call
+  #
+  #   floor.dog 
+  #
+  # and get the same as if you had called floor.build :dog
+  #
   def method_missing(sym, *args, &block)
     if args.size <= 1 && employees.has_key?(sym)
       attribute_overrides = {}

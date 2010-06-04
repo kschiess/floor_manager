@@ -6,7 +6,7 @@ class Spy
   def self.build(attrs={})
     new.tap { |instance|
       attrs.each do |a,v|
-        if respond_to?("#{a}=")
+        if instance.respond_to?("#{a}=")
           instance.send("#{a}=", v)
         end
       end

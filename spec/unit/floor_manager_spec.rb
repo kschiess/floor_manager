@@ -126,6 +126,7 @@ describe FloorManager do
           # has and belongs to many (uses association.create)
           enemies.append :black
           enemies.append :white
+          enemies.append :green
         end
       end
       
@@ -136,9 +137,15 @@ describe FloorManager do
       let(:any_spy) { env.spy }
       subject { any_spy }
 
-      its(:enemies) { should have(2).entries }
+      its(:enemies) { should have(3).entries }
       it "should have green in #opposite" do
         any_spy.opposite.should == env.green
+      end 
+      it "should not have recreated a green spy in #enemies" do
+        green2 = any_spy.enemies.select { |s| s.name == 'green' }.first
+        green1 = any_spy.opposite
+        
+        green1.should == green2
       end 
     end
   end
