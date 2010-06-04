@@ -15,10 +15,17 @@ module FloorManager::Employee
       end
     end
 
-    def initialize(employee, &block)
+    def initialize(employee, filter=:none, &block)
       @employee = employee
+      @filter = filter
       
       instance_eval(&block)
+    end
+      
+    # Register actions to be taken if the object gets saved (floor#create)
+    #
+    def after_create(&block)
+      self.class.new(@employee, :after_create, &block)
     end
       
     # This method missing handles several magic incantations: 

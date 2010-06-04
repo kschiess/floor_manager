@@ -149,4 +149,30 @@ describe FloorManager do
       end 
     end
   end
+  context "environment that uses after_create" do
+    let(:env) {
+      FloorManager.define :any do |m|
+        one :green, :class => Spy do
+          after_create do
+            name 'green'
+          end
+        end
+      end
+      
+      FloorManager.get(:any)
+    }
+    
+    context "objects from #build" do
+      let(:green) { env.build :green }
+      subject { green }
+      
+      its(:name) { should be_nil }
+    end
+    context "objects from #create" do
+      let(:green) { env.create :green }
+      subject { green }
+      
+      its(:name) { should == 'green' }
+    end
+  end
 end
