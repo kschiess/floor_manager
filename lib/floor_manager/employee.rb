@@ -61,8 +61,6 @@ module FloorManager::Employee
     # what was given in +overrides+.
     #
     def apply_attributes(instance, overrides, floor)
-      p [:apply_attributes, instance]
-      
       # First apply all attributes that were given in the factory definition. 
       @attributes.
         each do |action|
