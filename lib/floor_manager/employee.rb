@@ -12,21 +12,22 @@ module FloorManager::Employee
 
     def initialize(klass_name)
       @klass_name = klass_name
-      @attributes = []
+      @attributes = Hash.new { |h,k| h[k] = Array.new }
     end
     
     # Build this employee in memory. 
     #
     def build(floor, overrides)
-      produce_instance.tap { |i| apply_attributes(i, overrides, floor) }
+      produce_instance.tap { |i| apply_attributes(i, :none, floor, overrides) }
     end
     
     # Create this employee in the database. 
     #
     def create(floor, overrides)
       produce_instance.tap { |i| 
-        apply_attributes(i, overrides, floor)
-        i.save! }
+        apply_attributes(i, :none, floor, overrides)
+        i.save!
+        apply_attributes(i, :after_create, floor) }
     end
     
     # Returns just the attributes that would be used.
@@ -45,8 +46,8 @@ module FloorManager::Employee
     # interface. This method is mainly used by the DSL to store actions to
     # take.
     #
-    def add_attribute action
-      @attributes << action
+    def add_attribute filter, action
+      @attributes[filter] << action
     end
   protected
     def produce_instance
@@ -60,9 +61,9 @@ module FloorManager::Employee
     # specified in the factory for this employee and then overriding them with
     # what was given in +overrides+.
     #
-    def apply_attributes(instance, overrides, floor)
+    def apply_attributes(instance, filter, floor, overrides={})
       # First apply all attributes that were given in the factory definition. 
-      @attributes.
+      @attributes[filter].
         each do |action|
           action.apply(instance, floor, self)
         end

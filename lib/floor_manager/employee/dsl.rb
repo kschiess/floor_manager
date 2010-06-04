@@ -6,12 +6,12 @@ module FloorManager::Employee
     #     relationship.set :gun
     #   end
     #
-    class AssocProxy < Struct.new(:employee, :field)
+    class AssocProxy < Struct.new(:employee, :field, :dsl)
       def set(*create_args)
-        employee.add_attribute AttributeAction::AssocSet.new(field, create_args)
+        dsl._add_attribute AttributeAction::AssocSet.new(field, create_args)
       end
       def append(*create_args)
-        employee.add_attribute AttributeAction::AssocAppend.new(field, create_args)
+        dsl._add_attribute AttributeAction::AssocAppend.new(field, create_args)
       end
     end
 
@@ -54,16 +54,20 @@ module FloorManager::Employee
       if args.size == 1
         # Immediate attribute
         value = args.first
-        @employee.add_attribute AttributeAction::Immediate.new(sym, value)
+        _add_attribute AttributeAction::Immediate.new(sym, value)
       elsif block
         # Lazy attribute
-        @employee.add_attribute AttributeAction::Block.new(sym, block)
+        _add_attribute AttributeAction::Block.new(sym, block)
       elsif args.empty?
         # Maybe: #set / #append proxy?
-        AssocProxy.new(@employee, sym)
+        AssocProxy.new(@employee, sym, self)
       else
         super
       end
+    end
+
+    def _add_attribute(action)
+      @employee.add_attribute @filter, action
     end
   end
 end
