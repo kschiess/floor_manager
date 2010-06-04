@@ -27,7 +27,12 @@ module FloorManager::Employee
       produce_instance.tap { |i| 
         apply_attributes(i, :none, floor, overrides)
         i.save!
-        apply_attributes(i, :after_create, floor) }
+        
+        unless @attributes[:after_create].empty?
+          apply_attributes(i, :after_create, floor) 
+          i.save! 
+        end
+      }
     end
     
     # Returns just the attributes that would be used.
