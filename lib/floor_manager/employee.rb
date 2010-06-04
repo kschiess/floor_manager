@@ -5,7 +5,7 @@ require 'blankslate'
 module FloorManager::Employee
 
   # Base class for employees. No instances of this should be created. 
-  class Base
+  class Template
     def self.from_dsl(klass_name, &block)
       new(klass_name).tap { |emp| DSL.new(emp, &block) }
     end
@@ -32,8 +32,7 @@ module FloorManager::Employee
     # Returns just the attributes that would be used.
     #
     def attrs(floor, overrides)
-      {}.tap { |h| 
-        apply_attributes(h, overrides, floor) }
+      build(floor, overrides).attributes
     end
     
     # Reset this employee between test runs.
@@ -42,6 +41,10 @@ module FloorManager::Employee
       # Empty, but subclasses will override this.
     end
 
+    # Add an attribute to set. The action should implement the AttributeAction
+    # interface. This method is mainly used by the DSL to store actions to
+    # take.
+    #
     def add_attribute action
       @attributes << action
     end
@@ -53,46 +56,48 @@ module FloorManager::Employee
         new
     end
     
+    # Modify attribute values in +instance+, setting them to what was
+    # specified in the factory for this employee and then overriding them with
+    # what was given in +overrides+.
+    #
     def apply_attributes(instance, overrides, floor)
-      @attributes.each do |action|
-        action.apply(instance, floor)
-      end
+      p [:apply_attributes, instance]
+      
+      # First apply all attributes that were given in the factory definition. 
+      @attributes.
+        each do |action|
+          action.apply(instance, floor, self)
+        end
 
+      # Then override with what the user just gave us.
       overrides.each do |name, value|
-        AttributeAction::Immediate.new(name, value).apply(instance, floor)
+        AttributeAction::Immediate.new(name, value).apply(instance, floor, self)
       end
     end
   end
   
   # A unique employee that will be build/created only once in the given floor. 
-  class Unique < Base
-    # REFACTOR: Redundancy
-    def build(floor, overrides)
-      return @instance if @instance
-      @instance = produce_instance
-      apply_attributes(@instance, overrides, floor)
-      
-      @instance
-    end
-    
-    # REFACTOR: Redundancy
-    def create(floor, overrides)
-      return @instance if @instance
-      @instance = produce_instance
-      apply_attributes(@instance, overrides, floor)
-      @instance.save!
-      
-      @instance
-    end
-
+  class Unique < Template
     def reset
       @instance = nil
     end
-  end
-  
-  # A template for employees, you can call build/create many times.
-  class Template < Base
-    # Currently empty, see base class
+
+    # Override these to shortcut attribute setting when the instance exists 
+    # already. 
+    def build(floor, overrides)
+      @instance || super
+    end
+    def create(floor, overrides)
+      @instance || super
+    end
+    def attrs(floor, overrides)
+      @instance && @instance.attributes || super
+    end
+  protected
+    # Override to produce only one instance.
+    def produce_instance
+      @instance ||= super
+    end
   end
 end
 

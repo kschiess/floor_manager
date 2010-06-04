@@ -28,9 +28,9 @@ module FloorManager::Employee
         super field
         @create_args = create_args
       end
-      def apply(obj, floor)
-        associated_employee = floor.build(*@create_args)
-        get(obj).build(associated_employee.attributes)
+      def apply(obj, floor, employee)
+        instance = floor.build(*@create_args)
+        get(obj) << instance
       end
     end
     
@@ -41,7 +41,7 @@ module FloorManager::Employee
         super field
         @create_args = create_args
       end
-      def apply(obj, floor)
+      def apply(obj, floor, employee)
         set(obj, floor.create(*@create_args))
       end
     end
@@ -52,7 +52,7 @@ module FloorManager::Employee
         super(name)
         @value = value
       end
-      def apply(obj, floor)
+      def apply(obj, floor, employee)
         set(obj, @value)
       end
     end
@@ -63,7 +63,7 @@ module FloorManager::Employee
         super(name)
         @block = block
       end
-      def apply(obj, floor)
+      def apply(obj, floor, employee)
         set(obj, @block.call(obj, floor))
       end
     end

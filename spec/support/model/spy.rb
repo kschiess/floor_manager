@@ -28,4 +28,12 @@ class Spy
   def enemies
     @builder ||= Builder.new
   end
+  
+  def attributes
+    {
+      :name => name, 
+      :opposite => opposite, 
+      :enemies => enemies
+    }
+  end
 end

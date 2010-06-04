@@ -119,7 +119,7 @@ describe FloorManager do
           name 'black'
         end
         any :spy do
-          # A shortcut for association sets 
+          # A shortcut for association sets
           # (like { |inst, floor| floor.create(...) })
           opposite.set :green
 
@@ -134,7 +134,7 @@ describe FloorManager do
     }
 
     context "produced spy (from any rule)" do
-      let(:any_spy) { env.spy }
+      let(:any_spy) { env.create :spy }
       subject { any_spy }
 
       its(:enemies) { should have(3).entries }
