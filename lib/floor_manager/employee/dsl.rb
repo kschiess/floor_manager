@@ -8,10 +8,10 @@ module FloorManager::Employee
     #
     class AssocProxy < Struct.new(:employee, :field, :dsl)
       def set(*create_args)
-        dsl._add_attribute FloorManager::Employee::AttributeAction::AssocSet.new(field, create_args)
+        dsl._add_attribute AttributeAction::AssocSet.new(field, create_args)
       end
       def append(*create_args)
-        dsl._add_attribute FloorManager::Employee::AttributeAction::AssocAppend.new(field, create_args)
+        dsl._add_attribute AttributeAction::AssocAppend.new(field, create_args)
       end
     end
 
@@ -25,7 +25,7 @@ module FloorManager::Employee
     # Register actions to be taken if the object gets saved (floor#create)
     #
     def after_create(&block)
-      self.class.new(@employee, :after_create, &block)
+      FloorManager::Employee::DSL.new(@employee, :after_create, &block)
     end
       
     # This method missing handles several magic incantations: 
