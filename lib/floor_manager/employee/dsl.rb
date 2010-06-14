@@ -13,6 +13,11 @@ module FloorManager::Employee
       def append(*create_args)
         dsl._add_attribute AttributeAction::AssocAppend.new(field, create_args)
       end
+      def string(chars=10)
+        dsl._add_attribute AttributeAction::Block.new(field, proc {
+          (0...chars).map{ ('a'..'z').to_a[rand(26)] }.join
+        })
+      end
     end
 
     def initialize(employee, filter=:none, &block)

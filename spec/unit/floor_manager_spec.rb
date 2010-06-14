@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe FloorManager do  
-  context "environment with singleton definition" do
+  context "singleton definition" do
     let(:env) { 
       FloorManager.define :one do |m|
         one :white, :class => "Spy" do
@@ -69,7 +69,7 @@ describe FloorManager do
       end
     end
   end
-  context "environment with template definition" do
+  context "template definition" do
     let(:env) {
       FloorManager.define :any do |m|
         any :spy do
@@ -90,7 +90,7 @@ describe FloorManager do
       its(:name) { should == 'white spy'}
     end
   end
-  context "environment with any/overrides" do
+  context "any/overrides" do
     let(:env) {
       FloorManager.define :any do |m|
         any :spy do
@@ -106,7 +106,7 @@ describe FloorManager do
     
     its(:name) { should == 'blue' } 
   end
-  context "environment with association" do
+  context "association" do
     let(:env) {
       FloorManager.define :any do |m|
         one :green, :class => Spy do
@@ -149,7 +149,7 @@ describe FloorManager do
       end 
     end
   end
-  context "environment that uses after_create" do
+  context "after_create" do
     let(:env) {
       FloorManager.define :any do |m|
         one :green, :class => Spy do
@@ -173,6 +173,23 @@ describe FloorManager do
       subject { green }
       
       its(:name) { should == 'green' }
+    end
+  end
+  context "generators" do
+    let(:env) {
+      FloorManager.define :any do |m|
+        any :random, :class => Spy do
+          name.string(10)
+        end
+      end
+      
+      FloorManager.get(:any)
+    }
+
+    context "random spys name" do
+      subject { env.build(:random).name }
+      
+      it { should match(/\w{10}/) }
     end
   end
 end
