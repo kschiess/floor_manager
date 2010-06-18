@@ -29,6 +29,18 @@ And in your tests:
 This gives you two posts to test against. Both posts will have the same
 author, right down to the database id. 
 
+INSTALLATION
+
+Either by installing from http://github.com/kschiess/floor_manager as a rails
+plugin or by using rubygems:
+
+  gem install floor_manager
+  
+Then just require it atop of your floor definitions as follows: 
+
+  require 'floor_manager'
+  # Your floors go here...
+
 COMPATIBILITY
 
 This has only been tested with rails 2. Both Ruby 1.8 and Ruby 1.9 should
