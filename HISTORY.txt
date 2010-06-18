@@ -1,0 +1,7 @@
+
+== 0.1.0 / 2010-06-18
+
+  * initial version
+    - random string generation
+    - any / one object linking
+    - in memory build or database creation
