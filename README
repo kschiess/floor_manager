@@ -1,0 +1,46 @@
+
+FLOOR MANAGER - when your job is handling the girls
+
+The floor manager manages a whole graph of objects and lets you create them 
+in memory or the database for the duration of a test. 
+
+You need two posts that are linked up to the same author? [1] Easy: 
+
+  FloorManager.define :first do
+    one :author do  
+      name 'John Smith'
+    end
+  
+    any :post do
+      title 'The posts title'
+      author.set :author
+    end
+  end
+
+And in your tests: 
+  
+  before(:each) do
+    FloorManager.reset
+    
+    floor = FloorManager.get(:floor)
+    posts = [floor.create(:post), floor.create(:post)]
+  end
+  
+This gives you two posts to test against. Both posts will have the same
+author, right down to the database id. 
+
+COMPATIBILITY
+
+This has only been tested with rails 2. Both Ruby 1.8 and Ruby 1.9 should
+work.
+
+STATUS
+
+Useful in daily life. 
+  
+AUTHOR
+
+Kaspar Schiess (kaspar.schiess@absurd.li)
+
+[1] http://robots.thoughtbot.com/post/159807023/waiting-for-a-factory-girl
+
