@@ -1,4 +1,8 @@
 
+== 0.2.0 / ???
+
+  * Now uses rspec2 for tests. 
+
 == 0.1.0 / 2010-06-18
 
   * initial version
