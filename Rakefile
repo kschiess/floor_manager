@@ -20,7 +20,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "floor_manager"
-  s.version           = "0.1.0"
+  s.version           = "0.1.1"
   s.summary           = "Allows creation of a whole graph of objects on the fly during testing"
   s.author            = "Kaspar Schiess"
   s.email             = "kaspar.schiess@absurd.li"
@@ -36,7 +36,7 @@ spec = Gem::Specification.new do |s|
 
   # If you want to depend on other gems, add them here, along with any
   # relevant versions
-  s.add_dependency("activesupport", "~> 2.3.5")
+  s.add_dependency("activesupport", ">= 2.3.5")
 
   # If your tests use any gems, include them here
   s.add_development_dependency("rspec")
