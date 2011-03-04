@@ -1,12 +1,12 @@
 module FloorManager::Employee
-  class DSL < BlankSlate
+  class DSL < BasicObject
     # A proxy that is the receiver of #set and #append in a construct like this: 
     #
     #   one :spy do
     #     relationship.set :gun
     #   end
     #
-    class AssocProxy < Struct.new(:employee, :field, :dsl)
+    class AssocProxy < ::Struct.new(:employee, :field, :dsl)
       def set(*create_args)
         dsl._add_attribute AttributeAction::AssocSet.new(field, create_args)
       end

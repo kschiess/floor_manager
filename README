@@ -43,8 +43,7 @@ Then just require it atop of your floor definitions as follows:
 
 COMPATIBILITY
 
-This has only been tested with rails 2. Both Ruby 1.8 and Ruby 1.9 should
-work.
+Has been tested with Ruby 1.9.2 and ActiveRecord/DataMapper.
 
 STATUS
 

@@ -1,4 +1,10 @@
 
+== 0.1.2 / ???
+
+  * Now only works with Ruby 1.9s BasicObject. BlankSlate has outstanding 
+    bugs that prevent this from working. (see 
+    https://github.com/masover/blankslate/issues#issue/2)
+
 == 0.1.1 / 2010-09-21
 
   * Now uses rspec2 for tests. 
