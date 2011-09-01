@@ -42,7 +42,8 @@ module FloorManager::Employee
         @create_args = create_args
       end
       def apply(obj, floor, employee)
-        set(obj, floor.build(*@create_args))
+        assoc_obj = floor.build(*@create_args)
+        set(obj, assoc_obj)
       end
     end
     

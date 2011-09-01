@@ -17,7 +17,8 @@ module FloorManager::Employee
     # Build this employee in memory. 
     #
     def build(floor, overrides)
-      produce_instance.tap { |i| apply_attributes(i, :none, floor, overrides) }
+      produce_instance.tap { |i| 
+        apply_attributes(i, :none, floor, overrides) }
     end
     
     # Create this employee in the database. 
@@ -25,11 +26,16 @@ module FloorManager::Employee
     def create(floor, overrides)
       produce_instance.tap { |i| 
         apply_attributes(i, :none, floor, overrides)
-        i.save!
+        
+        unless i.valid?
+          err_msgs = i.errors.to_a.join(',')
+          fail "#{@klass_name.inspect} not constructed valid: #{err_msgs}"
+        end
+        i.save or fail "Could not create instance of #{@klass_name.inspect}."
         
         unless @attributes[:after_create].empty?
           apply_attributes(i, :after_create, floor) 
-          i.save! 
+          i.save or fail "Could not save after_create."
         end
       }
     end
