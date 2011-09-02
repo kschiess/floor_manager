@@ -27,10 +27,6 @@ module FloorManager::Employee
       produce_instance.tap { |i| 
         apply_attributes(i, :none, floor, overrides)
         
-        unless i.valid?
-          err_msgs = i.errors.to_a.join(',')
-          fail "#{@klass_name.inspect} not constructed valid: #{err_msgs}"
-        end
         i.save or fail "Could not create instance of #{@klass_name.inspect}."
         
         unless @attributes[:after_create].empty?

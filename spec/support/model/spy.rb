@@ -16,7 +16,7 @@ class Spy
   def initialize
     @saved = false
   end
-  def save!; @saved = true; end
+  def save; @saved = true; end
   def saved?; @saved; end
   
   class Builder < Array

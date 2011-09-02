@@ -30,7 +30,7 @@ module FloorManager::Employee
     # Register actions to be taken if the object gets saved (floor#create)
     #
     def after_create(&block)
-      FloorManager::Employee::DSL.new(@employee, :after_create, &block)
+      DSL.new(@employee, :after_create, &block)
     end
       
     # This method missing handles several magic incantations: 
