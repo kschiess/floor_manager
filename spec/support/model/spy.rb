@@ -1,7 +1,7 @@
 
 
 class Spy
-  attr_accessor :name, :opposite
+  attr_accessor :name, :opposite, :int
   
   def self.build(attrs={})
     new.tap { |instance|

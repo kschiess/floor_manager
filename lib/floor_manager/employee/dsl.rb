@@ -18,6 +18,11 @@ module FloorManager::Employee
           (0...chars).map{ ('a'..'z').to_a[rand(26)] }.join
         })
       end
+      def integer(range)
+        dsl._add_attribute AttributeAction::Block.new(field, proc {
+          range.first + rand(range.last-range.first)
+        })
+      end
     end
 
     def initialize(employee, filter=:none, &block)

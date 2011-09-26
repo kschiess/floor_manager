@@ -180,6 +180,7 @@ describe FloorManager do
       FloorManager.define :any do |m|
         any :random, :class => Spy do
           name.string(10)
+          int.integer(5..10)
         end
       end
       
@@ -190,6 +191,12 @@ describe FloorManager do
       subject { env.build(:random).name }
       
       it { should match(/\w{10}/) }
+    end
+    context "random spies int" do
+      subject { env.build(:random).int }
+      
+      it { should >= 5 }
+      it { should < 10 }
     end
   end
 end
