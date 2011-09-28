@@ -1,5 +1,7 @@
 source "http://rubygems.org"
 
+gem 'blankslate'
+
 group :development do
   gem 'rake'
   

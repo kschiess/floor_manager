@@ -1,9 +1,8 @@
 
-== 0.1.2 / ???
+== 0.1.2 / 2011-09-28
 
-  * Now only works with Ruby 1.9s BasicObject. BlankSlate has outstanding 
-    bugs that prevent this from working. (see 
-    https://github.com/masover/blankslate/issues#issue/2)
+  * Lots of small bugfixes and small error reporting improvements. Anniversary
+    release.
 
 == 0.1.1 / 2010-09-21
 

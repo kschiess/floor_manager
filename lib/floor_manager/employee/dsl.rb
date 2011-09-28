@@ -1,5 +1,7 @@
+require 'blankslate'
+
 module FloorManager::Employee
-  class DSL < BasicObject
+  class DSL < BlankSlate
     # A proxy that is the receiver of #set and #append in a construct like this: 
     #
     #   one :spy do

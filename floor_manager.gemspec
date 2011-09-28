@@ -12,4 +12,6 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--main", "README"]
   s.require_paths = ["lib"]
   s.summary = "Allows creation of a whole graph of objects on the fly during testing"
+  
+  s.add_dependency 'blankslate', "~> 2.1.2.4"
 end
