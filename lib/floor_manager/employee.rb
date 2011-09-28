@@ -53,14 +53,13 @@ module FloorManager::Employee
     def add_attribute filter, action
       @attributes[filter] << action
     end
-  protected
+
     def produce_instance
       name = camelcase(@klass_name.to_s)
       Object.const_get(name).new
     end
-    
     def camelcase(str)
-      str.gsub(%r((^|_)\w)) { |match| match.upcase }
+      str.gsub(%r((^|_)\w)) { |match| match[-1].upcase }
     end
     
     # Modify attribute values in +instance+, setting them to what was
