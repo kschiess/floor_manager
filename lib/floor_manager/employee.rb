@@ -1,6 +1,4 @@
 
-require 'active_support/core_ext/string/inflections'
-
 module FloorManager::Employee
 
   # Base class for employees. No instances of this should be created. 
@@ -57,10 +55,12 @@ module FloorManager::Employee
     end
   protected
     def produce_instance
-      @klass_name.to_s.
-        camelcase.
-        constantize.
-        new
+      name = camelcase(@klass_name.to_s)
+      Object.const_get(name).new
+    end
+    
+    def camelcase(str)
+      str.gsub(%r((^|_)\w)) { |match| match.upcase }
     end
     
     # Modify attribute values in +instance+, setting them to what was
