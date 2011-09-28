@@ -29,6 +29,9 @@ And in your tests:
 This gives you two posts to test against. Both posts will have the same
 author, right down to the database id. 
 
+Look here for more documentation: 
+http://blog.absurd.li/2011/09/28/introducing_floor_manager.html
+
 INSTALLATION
 
 Either by installing from http://github.com/kschiess/floor_manager as a rails
