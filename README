@@ -43,7 +43,7 @@ Then just require it atop of your floor definitions as follows:
 
 COMPATIBILITY
 
-Has been tested with Ruby 1.9.2 and ActiveRecord/DataMapper.
+Has been tested with Ruby 1.9.2/1.8.7 MRI and ActiveRecord/DataMapper.
 
 STATUS
 
