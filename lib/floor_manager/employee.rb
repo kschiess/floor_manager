@@ -3,12 +3,13 @@ module FloorManager::Employee
 
   # Base class for employees. No instances of this should be created. 
   class Template
-    def self.from_dsl(klass_name, &block)
-      new(klass_name).tap { |emp| DSL.new(emp, &block) }
+    def self.from_dsl(klass_name, namespace=nil, &block)
+      new(klass_name, namespace).tap { |emp| DSL.new(emp, &block) }
     end
 
-    def initialize(klass_name)
+    def initialize(klass_name, namespace=nil)
       @klass_name = klass_name
+      @namespace = namespace
       @attributes = Hash.new { |h,k| h[k] = Array.new }
     end
     
@@ -56,7 +57,7 @@ module FloorManager::Employee
 
     def produce_instance
       name = camelcase(@klass_name.to_s)
-      Object.const_get(name).new
+      (@namespace || Object).const_get(name).new
     end
     def camelcase(str)
       str.gsub(%r((^|_)\w)) { |match| match[-1].upcase }

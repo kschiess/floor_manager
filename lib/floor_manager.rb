@@ -5,10 +5,10 @@ class FloorManager
     
     # Defines a new environment under the supervision of the floor manager. 
     #
-    def define(environment_name, &block)
+    def define(environment_name, options={}, &block)
       @floors ||= {}
       
-      @floors[environment_name] = FloorManager::Floor.from_dsl(&block)
+      @floors[environment_name] = FloorManager::Floor.from_dsl(options, &block)
     end
     
     # Returns an instance of the environment.

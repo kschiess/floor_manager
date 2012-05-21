@@ -199,4 +199,25 @@ describe FloorManager do
       it { should < 10 }
     end
   end
+  describe 'namespaces' do
+    module Foo
+      class Bar < Spy
+      end
+    end
+    
+    let(:env) {
+      FloorManager.define :any, :namespace => Foo do |m|
+        any :bar do
+          name 'bar'
+        end
+      end
+      
+      FloorManager.get(:any)
+    }
+    let(:bar) { env.bar }
+    
+    it "should construct an instance of Foo::Bar" do
+      bar.should be_a(Foo::Bar)
+    end 
+  end
 end
