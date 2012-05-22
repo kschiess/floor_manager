@@ -210,14 +210,21 @@ describe FloorManager do
         any :bar do
           name 'bar'
         end
+        one :my_bar, class: 'Bar' do
+          name 'baz'
+        end
       end
       
       FloorManager.get(:any)
     }
     let(:bar) { env.bar }
+    let(:my_bar) { env.my_bar }
     
     it "should construct an instance of Foo::Bar" do
       bar.should be_a(Foo::Bar)
+    end 
+    it "should also work in 'one'" do
+      my_bar.should be_a(Foo::Bar)
     end 
   end
 end
